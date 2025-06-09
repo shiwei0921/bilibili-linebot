@@ -84,27 +84,36 @@ def callback():
 @handler.add(FollowEvent)
 def handle_follow(event):
     user_id = event.source.user_id
-    print(" 新使用者加入：", user_id)
+    print("🟢 新使用者加入：", user_id)
 
-    conn = get_conn()
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM user_list WHERE user_id = %s", (user_id,))
-        result = cursor.fetchone()
-        if not result:
-            cursor.execute("INSERT INTO user_list (user_id, balance) VALUES (%s, %s)", (user_id, 5000000))
-            conn.commit()
-    conn.close()
+    try:
+        conn = get_conn()
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT * FROM user_list WHERE user_id = %s", (user_id,))
+            result = cursor.fetchone()
+            if not result:
+                cursor.execute(
+                    "INSERT INTO user_list (user_id, balance) VALUES (%s, %s)",
+                    (user_id, 5000000)
+                )
+                conn.commit()
+    finally:
+        conn.close()
 
+    # 設定 Rich Menu
     rich_menu_id = get_rich_menu_id_by_name("default")
     if rich_menu_id:
         line_bot_api.link_rich_menu_to_user(user_id, rich_menu_id)
-        print(" Rich Menu 綁定成功")
+        print("✅ Rich Menu 綁定成功")
 
-    entry_url = f"https://a7b5-211-72-73-207.ngrok-free.app/#/?user_id={user_id}"
+    # 改為 Render 的網址
+    entry_url = f"https://bilibili-linebot.onrender.com/#/?user_id={user_id}"
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=f"歡迎加入幣哩幣哩 \n請點選以下網址或按鈕或按鈕開啟功能選單：\n{entry_url}")
+        TextSendMessage(text=f"歡迎加入幣哩幣哩！\n請點選以下網址開啟功能選單：\n{entry_url}")
     )
+
 
 
 # 使用者傳訊息事件
@@ -290,16 +299,8 @@ def get_price_history(coin_id):
         return jsonify({"error": "圖表類型不支援"}), 400
 
     try:
-        conn = pymysql.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME"),
-            charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
-        )
         connect = get_conn()
-        cursor = conn.cursor()
+        cursor = connect.cursor()
         cursor.execute("""
             SELECT receiving_time AS label, price
             FROM price_history
@@ -309,8 +310,12 @@ def get_price_history(coin_id):
         data = cursor.fetchall()
         return jsonify(data)
     except Exception as e:
-        print(" price_history 查詢失敗：", e)
+        print("price_history 查詢失敗：", e)
         return jsonify({"error": "查詢失敗"}), 500
+    finally:
+        cursor.close()
+        connect.close()
+
 
 
 
@@ -601,29 +606,6 @@ def serve_react(path):
     else:
         return send_from_directory(bilibili.static_folder, "index.html")
     
-
-#@bilibili.route("/set_uid", methods=["POST"])
-#def set_uid():
-#    data = request.get_json()
-#    user_id = data.get("uid")
-
-#    try:
-#        connect = get_conn()
-#        cursor = connect.cursor()
-#        cursor.execute("SELECT * FROM user_list WHERE user_id = %s", (user_id,))
-#        result = cursor.fetchone()
-
-#        if not result:
-#            cursor.execute("INSERT INTO user_list (user_id, balance) VALUES (%s, %s)", (user_id, 5000000))
-#            connect.commit()
-#            return jsonify({"message": "使用者已新增"}), 200
-##        else:
-#            return jsonify({"message": "使用者已存在"}), 200
-
-#    except Exception as e:
-#        return jsonify({"error": str(e)}), 500
-
-# 執行 Flask App
 if __name__ == "__main__":
     schedule_price_check()
     bilibili.run(host="0.0.0.0", port=5000)
