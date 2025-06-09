@@ -149,15 +149,7 @@ def follow_list():
         coin_id = request.form.get("coin_id")
 
         try:
-            conn = pymysql.connect(
-                host=os.getenv("DB_HOST"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD"),
-                database=os.getenv("DB_NAME"),
-                charset='utf8mb4',
-                cursorclass=pymysql.cursors.DictCursor
-            )
-            connect = get_conn()
+            conn = get_conn()
             cursor = conn.cursor()
 
             if action == "add":
@@ -174,25 +166,17 @@ def follow_list():
             return redirect(f"/follow_list?user_id={user_id}")
 
         except Exception as e:
-            print("POST 操作失敗：", e)
+            print("❌ POST 操作失敗：", e)
             return jsonify({"error": "資料庫錯誤"}), 500
 
         finally:
             cursor.close()
             conn.close()
 
-    # GET 方法：查詢追蹤清單
+    # --- GET 方法 ---
     try:
-        conn = pymysql.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME"),
-            charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
-        )
-        connect = get_conn()
-        cursor = connect.cursor()
+        conn = get_conn()
+        cursor = conn.cursor()
 
         cursor.execute("""
             SELECT c.coin_id, c.coin_name, p.price
@@ -219,12 +203,12 @@ def follow_list():
         })
 
     except Exception as e:
-        print(" 查詢失敗：", e)
+        print("❌ GET 查詢失敗：", e)
         return jsonify({"error": "伺服器錯誤"}), 500
 
     finally:
         cursor.close()
-        connect.close()
+        conn.close()
 
 
 #漲跌幅通知設定
