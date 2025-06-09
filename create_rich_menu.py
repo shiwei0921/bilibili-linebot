@@ -6,11 +6,11 @@ from linebot.models import (
 from linebot.exceptions import LineBotApiError
 
 # ✅ 建議你用 dotenv 讀取 token，但這裡先直接寫死
-CHANNEL_ACCESS_TOKEN = "7x6olTZ0bZU5gmgvzf28oJJFnqDqfNivKv4EuuO684cFLHokxE7gQnxVpjv5qL6Krf9WaomUEzgN0Rad83oDmLeF5aWEKOutUI9pcm2aFx4WseS8FAjL08nno8Yva+eOkS9vrnJjuSkCNwmyP4nVBAdB04t89/1O/w1cDnyilFU="
+CHANNEL_ACCESS_TOKEN = "mLQTrhl/tuilVchuBB7Luxu4a4rln6dFwbEL/ppOicZRvfuDBaBq+2/JbAlApv45BmgXFbNxXkSn88bkShviXgt4/k02gEYCMFsBR0vs3tXtdyX7wzLGd3/mk5psueU4AFL7uzHxFG0dMTzt/CJtCQdB04t89/1O/w1cDnyilFU="
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 
 # ✅ LINE Rich Menu 的每個按鈕都要用 https 開頭的完整 URL
-base_url = "https://a7b5-211-72-73-207.ngrok-free.app/#"
+base_url = "https://bilibili-linebot.onrender.com/#"
 
 areas = [
     RichMenuArea(
