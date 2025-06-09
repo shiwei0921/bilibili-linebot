@@ -1,0 +1,78 @@
+
+{% extends "admin_base.html" %}
+
+{% block title %}使用者詳情 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">使用者詳情: <small class="text-muted">{{ user.line_user_id }}</small></h1>
+    <a href="{{ url_for('admin.manage_users') }}" class="btn btn-sm btn-outline-secondary">
+        <i data-feather="arrow-left"></i> 返回使用者列表
+    </a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i data-feather="user"></i> 基本資料
+    </div>
+    <div class="card-body">
+        <p><strong>LINE User ID:</strong> {{ user.line_user_id }}</p>
+        <p><strong>註冊時間:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') if user.created_at else 'N/A' }}</p>
+    </div>
+</div>
+
+
+<div class="card mb-4">
+    <div class="card-header">
+       <i data-feather="list"></i> 追蹤清單
+    </div>
+    <div class="card-body">
+        {% if tracking_list %}
+            <ul class="list-group">
+            {% for item in tracking_list %}
+                <li class="list-group-item">{{ item.crypto_name.capitalize() }} (加入於: {{ item.added_at.strftime('%Y-%m-%d %H:%M:%S') if item.added_at else 'N/A' }})</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="fst-italic">此使用者沒有追蹤任何幣種。</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-header">
+        <i data-feather="trending-up"></i> 投資記錄
+    </div>
+    <div class="card-body">
+        {% if investments %}
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>幣種</th>
+                            <th>數量</th>
+                            <th>總投入 (TWD)</th>
+                            <th>買入時單價 (USD)</th>
+                            <th>投資時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for inv in investments %}
+                        <tr>
+                            <td>{{ inv.crypto_name.capitalize() }}</td>
+                            <td>{{ "%.6f"|format(inv.quantity) }}</td>
+                            <td>{{ "%.2f"|format(inv.total_invested_value) }}</td>
+                            <td>{{ "%.2f"|format(inv.price_at_investment_usd) }}</td>
+                            <td>{{ inv.invested_at.strftime('%Y-%m-%d %H:%M:%S') if inv.invested_at else 'N/A' }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="fst-italic">此使用者沒有任何投資記錄。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

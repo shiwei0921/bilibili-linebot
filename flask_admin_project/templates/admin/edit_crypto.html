@@ -1,0 +1,19 @@
+{% extends "admin_base.html" %}
+
+{% block title %}編輯幣種{% endblock %}
+
+{% block content %}
+<h1 class="h2">編輯幣種：{{ crypto.name }}</h1>
+<form method="POST">
+  <div class="mb-3">
+    <label for="symbol">幣種符號</label>
+    <input type="text" class="form-control" id="symbol" name="symbol" value="{{ crypto.symbol }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="name">幣種名稱</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{ crypto.name }}" required>
+  </div>
+  <button type="submit" class="btn btn-primary">儲存</button>
+  <a href="{{ url_for('admin.manage_cryptos') }}" class="btn btn-secondary">取消</a>
+</form>
+{% endblock %}

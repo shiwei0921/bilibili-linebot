@@ -1,0 +1,44 @@
+{% extends "admin_base.html" %}
+
+{% block title %}使用者詳情{% endblock %}
+
+{% block content %}
+<h1 class="h2">使用者詳情：{{ user.line_user_id }}</h1>
+
+<p><strong>註冊時間：</strong>{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') if user.created_at else 'N/A' }}</p>
+
+<h4 class="mt-4">追蹤清單</h4>
+<ul>
+  {% for item in tracking_list %}
+    <li>{{ item.crypto_name }} - {{ item.added_at.strftime('%Y-%m-%d %H:%M:%S') if item.added_at else 'N/A' }}</li>
+  {% else %}
+    <li class="fst-italic">尚無追蹤幣種</li>
+  {% endfor %}
+</ul>
+
+<h4 class="mt-4">投資紀錄</h4>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>幣種</th>
+      <th>數量</th>
+      <th>總投入</th>
+      <th>單價</th>
+      <th>時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for inv in investments %}
+    <tr>
+      <td>{{ inv.crypto_name }}</td>
+      <td>{{ inv.quantity }}</td>
+      <td>{{ inv.total_invested_value }}</td>
+      <td>{{ inv.price_at_investment_usd }}</td>
+      <td>{{ inv.invested_at.strftime('%Y-%m-%d %H:%M:%S') if inv.invested_at else 'N/A' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-center">尚無投資紀錄</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

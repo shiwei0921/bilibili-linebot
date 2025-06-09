@@ -1,0 +1,117 @@
+[2025-06-01 03:02:00] bitcoin insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'BTC', 'price': 104543, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] ethereum insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'ETH', 'price': 2540.13, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] tether insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'USDT', 'price': 1.0, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] ripple insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'XRP', 'price': 2.19, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] binancecoin insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'BNB', 'price': 657.56, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] solana insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'SOL', 'price': 156.51, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] usd-coin insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'USDC', 'price': 0.999828, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:02:00] dogecoin insert error: (pymysql.err.ProgrammingError) (1146, "Table 'bilibili.history_price' doesn't exist")
+[SQL: 
+                        INSERT INTO history_price (coin_id, price, receiving_time)
+                        VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                    ]
+[parameters: {'coin_id': 'DOGE', 'price': 0.192799, 'receiving_time': datetime.datetime(2025, 6, 1, 3, 2)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+[2025-06-01 03:14:00] Global insert error: (pymysql.err.OperationalError) (1054, "Unknown column 'timestamp' in 'field list'")
+[SQL: 
+                    INSERT INTO price_history (coin_id, price, timestamp)
+                    VALUES (%(coin_id)s, %(price)s, %(timestamp)s)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 104660, 'timestamp': datetime.datetime(2025, 6, 1, 3, 14)}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-06-01 12:48:00] Global insert error: (pymysql.err.OperationalError) (1205, 'Lock wait timeout exceeded; try restarting transaction')
+[SQL: 
+                    INSERT INTO price (coin_id, price, update_time)
+                    VALUES (%(coin_id)s, %(price)s, %(update_time)s)
+                    ON DUPLICATE KEY UPDATE
+                        price = VALUES(price),
+                        update_time = VALUES(update_time)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 104677, 'update_time': datetime.datetime(2025, 6, 1, 12, 48)}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-06-01 12:52:00] Global insert error: (pymysql.err.OperationalError) (1205, 'Lock wait timeout exceeded; try restarting transaction')
+[SQL: 
+                    INSERT INTO price (coin_id, price, update_time)
+                    VALUES (%(coin_id)s, %(price)s, %(update_time)s)
+                    ON DUPLICATE KEY UPDATE
+                        price = VALUES(price),
+                        update_time = VALUES(update_time)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 104680, 'update_time': datetime.datetime(2025, 6, 1, 12, 52)}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-06-01 12:58:00] Global insert error: (pymysql.err.OperationalError) (1205, 'Lock wait timeout exceeded; try restarting transaction')
+[SQL: 
+                    INSERT INTO price (coin_id, price, update_time)
+                    VALUES (%(coin_id)s, %(price)s, %(update_time)s)
+                    ON DUPLICATE KEY UPDATE
+                        price = VALUES(price),
+                        update_time = VALUES(update_time)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 104678, 'update_time': datetime.datetime(2025, 6, 1, 12, 58)}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-06-01 13:03:00] Global insert error: (pymysql.err.OperationalError) (2006, "MySQL server has gone away (ConnectionResetError(10054, '遠端主機已強制關閉一個現存的連線。', None, 10054, None))")
+[SQL: 
+                    INSERT INTO price (coin_id, price, update_time)
+                    VALUES (%(coin_id)s, %(price)s, %(update_time)s)
+                    ON DUPLICATE KEY UPDATE
+                        price = VALUES(price),
+                        update_time = VALUES(update_time)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 104689, 'update_time': datetime.datetime(2025, 6, 1, 13, 3)}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2025-06-03 07:08:00] Global insert error: (pymysql.err.IntegrityError) (1062, "Duplicate entry 'BTC-2025-06-03 07:08:00' for key 'PRIMARY'")
+[SQL: 
+                    INSERT INTO price_history (coin_id, price, receiving_time)
+                    VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 105690, 'receiving_time': datetime.datetime(2025, 6, 3, 7, 8)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-06-03 08:32:00] Global insert error: (pymysql.err.IntegrityError) (1062, "Duplicate entry 'BTC-2025-06-03 08:32:00' for key 'PRIMARY'")
+[SQL: 
+                    INSERT INTO price_history (coin_id, price, receiving_time)
+                    VALUES (%(coin_id)s, %(price)s, %(receiving_time)s)
+                ]
+[parameters: {'coin_id': 'BTC', 'price': 106163, 'receiving_time': datetime.datetime(2025, 6, 3, 8, 32)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
