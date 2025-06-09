@@ -8,8 +8,8 @@ import schedule
 import time
 
 #  資料庫連線
-DB_NAME = 'beli'
-DB_URL = f'mysql+pymysql://root:12345678@localhost/{DB_NAME}'
+DB_NAME = 'railway'
+DB_URL = f'mysql://root:bhqSPYEVJcPareMxGHDLydYkldyBeCUg@centerbeam.proxy.rlwy.net:15995/railway'
 
 #  測試資料庫連線
 try:
