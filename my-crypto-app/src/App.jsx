@@ -35,6 +35,8 @@ function Home() {
       const target = params.get("target");
       const uid = params.get("user_id");
 
+      console.log("✅ 抓到 user_id：", uid);
+
       if (uid) {
         localStorage.setItem("user_id", uid);
         fetch("/set_uid", {

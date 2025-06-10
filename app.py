@@ -85,7 +85,7 @@ def callback():
 
 @handler.add(FollowEvent)
 def handle_follow(event):
-    user_id = event.source.user_id
+    user_id = get_user_id()
     print("🟢 新使用者加入：", user_id)
 
     try:
@@ -152,7 +152,7 @@ def remove_follow(user_id, coin_id):
 # 主路由：追蹤清單頁（顯示 + 新增 + 移除）
 @bilibili.route("/follow_list", methods=["GET", "POST"])
 def follow_list():
-    user_id = request.args.get("user_id", "").strip()  # ✅ 從網址取得
+    user_id = get_user_id()
     print(f"[後端] /follow_list 使用者：{user_id}")
 
     if not user_id:
