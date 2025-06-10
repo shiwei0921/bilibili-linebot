@@ -115,3 +115,13 @@
                 ]
 [parameters: {'coin_id': 'BTC', 'price': 106163, 'receiving_time': datetime.datetime(2025, 6, 3, 8, 32)}]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-06-10 13:33:00] Global insert error: (MySQLdb.OperationalError) (2006, 'Server has gone away')
+[SQL: 
+                    INSERT INTO price (coin_id, price, update_time)
+                    VALUES (%s, %s, %s)
+                    ON DUPLICATE KEY UPDATE
+                        price = VALUES(price),
+                        update_time = VALUES(update_time)
+                ]
+[parameters: ('BTC', 109451, datetime.datetime(2025, 6, 10, 13, 33))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

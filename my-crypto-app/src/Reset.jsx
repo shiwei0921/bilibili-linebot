@@ -7,6 +7,7 @@ export default function Reset() {
   const [cash, setCash] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const user_id = localStorage.getItem("user_id");
 
   async function handleReset() {
     setLoading(true);
@@ -15,7 +16,7 @@ export default function Reset() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // ✅ 自動帶 cookie session
-        body: JSON.stringify({}) // ✅ 不需要傳 user_id
+        body: JSON.stringify({ user_id: user_id }) // ✅ 不需要傳 user_id
       });
       const data = await res.json();
 

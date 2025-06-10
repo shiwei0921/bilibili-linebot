@@ -47,12 +47,9 @@ def get_rich_menu_id_by_name(target_name):
 
 # ✅ 輔助函式：從網址補 session 中的 uid
 def get_user_id():
-    user_id = session.get("uid")
-    if not user_id:
-        user_id = request.args.get("user_id", "").strip()
-        if user_id:
-            session["uid"] = user_id
-            print(" 從網址取得 user_id 並寫入 session：", user_id)
+    # 直接從網址取得，不再用 session
+    user_id = request.args.get("user_id", "").strip()
+    print("🔍 從網址讀取 user_id：", user_id)
     return user_id
 
 # ✅ 輔助函式：從網址補 session 中的 uid
@@ -150,12 +147,18 @@ def remove_follow(user_id, coin_id):
 # 主路由：追蹤清單頁（顯示 + 新增 + 移除）
 @bilibili.route("/follow_list", methods=["GET", "POST"])
 def follow_list():
-    user_id = get_user_id()
-    print("[後端] 有進來 /follow_list")
+    user_id = request.args.get("user_id", "").strip()  # ✅ 從網址取得
+    print(f"[後端] /follow_list 使用者：{user_id}")
+
+    if not user_id:
+        return jsonify({"error": "缺少 user_id"}), 400
 
     if request.method == "POST":
         action = request.form.get("action")
         coin_id = request.form.get("coin_id")
+
+        if not action or not coin_id:
+            return jsonify({"error": "缺少參數"}), 400
 
         try:
             conn = get_conn()
@@ -171,8 +174,11 @@ def follow_list():
                     "DELETE FROM follow_list WHERE user_id = %s AND coin_id = %s",
                     (user_id, coin_id)
                 )
+            else:
+                return jsonify({"error": "未知的 action"}), 400
+
             conn.commit()
-            return redirect(f"/follow_list?user_id={user_id}")
+            return redirect(f"/follow_list?user_id={user_id}")  # ✅ 重導回來帶 user_id
 
         except Exception as e:
             print("❌ POST 操作失敗：", e)
@@ -218,6 +224,7 @@ def follow_list():
     finally:
         cursor.close()
         conn.close()
+
 
 
 #漲跌幅通知設定

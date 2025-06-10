@@ -11,10 +11,11 @@ export default function PriceSearch() {
   const [chartData, setChartData] = useState([]);
   const [coinPrice, setCoinPrice] = useState(null);
   const [followedCoins, setFollowedCoins] = useState([]);
+  const user_id = localStorage.getItem("user_id");
 
   // ✅ 取得幣種列表
   useEffect(() => {
-    fetch("/api/current_prices", { credentials: "include" })
+    fetch(`/api/current_prices?user_id=${user_id}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => setCoinList(data))
       .catch(err => console.error("取得幣價失敗：", err));
@@ -22,7 +23,7 @@ export default function PriceSearch() {
 
   // ✅ 取得使用者追蹤的幣種
   useEffect(() => {
-    fetch("/follow_list", { credentials: "include" })
+    fetch(`/follow_list?user_id=${user_id}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         const tracked = data.tracked?.map(c => c.coin_id) || [];
@@ -38,7 +39,7 @@ export default function PriceSearch() {
     const coin = coinList.find(c => c.coin_id === selectedCoin);
     setCoinPrice(coin?.price || null);
 
-    fetch(`/api/price_history/${selectedCoin}?type=${selectedRange}`, { credentials: "include" })
+    fetch(`/api/price_history/${selectedCoin}?type=${selectedRange}&user_id=${user_id}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => setChartData(Array.isArray(data) ? data.reverse() : []))
       .catch(err => {

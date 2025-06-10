@@ -14,6 +14,7 @@ export default function Trade() {
   const [total, setTotal] = useState("");
   const [price, setPrice] = useState(0);
   const [message, setMessage] = useState("");
+  const user_id = localStorage.getItem("user_id");
 
   // 計算手續費
   const calculateFee = () => {
@@ -51,7 +52,7 @@ export default function Trade() {
   useEffect(() => {
     if (!coinId) return;
 
-    fetch(`api/trade_info?coin_id=${coinId}`, { credentials: "include" })
+    fetch(`api/trade_info?coin_id=${coinId}&user_id=${user_id}`, { credentials: "include" })
       .then(r => r.json())
       .then(data => {
         setCash(data.balance ?? 0);
@@ -62,7 +63,7 @@ export default function Trade() {
         setMessage("❌ 無法取得即時幣價或帳戶資料");
       });
 
-    fetch(`/api/profit`, { credentials: "include" })
+    fetch(`/api/profit?user_id=${user_id}`, { credentials: "include" })
       .then(r => r.json())
       .then(data => {
         setHoldings(data.portfolio ?? []);
@@ -115,7 +116,8 @@ export default function Trade() {
         body: JSON.stringify({
           coin_id: coinId,
           action: tradeType,
-          quantity: numAmount
+          quantity: numAmount,
+          user_id: user_id
         })
       });
 

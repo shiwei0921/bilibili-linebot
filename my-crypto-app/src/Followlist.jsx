@@ -303,9 +303,10 @@ export default function FollowList() {
   const navigate = useNavigate();
   const [selectedRange, setSelectedRange] = useState("1d");
   const [allCoins, setAllCoins] = useState([]);
+  const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
-    fetch("api/coin_list", { credentials: "include" })
+    fetch(`api/coin_list?user_id=${user_id}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         const mapped = data.map(c => ({ id: c.coin_id, name: c.coin_name }));
@@ -314,12 +315,12 @@ export default function FollowList() {
   }, []);
 
   useEffect(() => {
-    fetch("follow_list", { credentials: "include" })
+    fetch(`follow_list?user_id=${user_id}`, { credentials: "include" })
       .then(res => res.json())
       .then(data => {
         const trackedCoins = data.tracked || [];
         return Promise.all(trackedCoins.map(coin =>
-          fetch(`api/price_history/${coin.coin_id}?type=${selectedRange}`, { credentials: "include" })
+          fetch(`api/price_history/${coin.coin_id}?type=${selectedRange}&user_id=${user_id}`, { credentials: "include" })
             .then(res => res.json())
             .then(history => ({
               id: coin.coin_id,
@@ -338,7 +339,7 @@ export default function FollowList() {
 
   async function handleAddCoin() {
     if (!addCoin || followList.some(c => c.id === addCoin)) return;
-    const res = await fetch("follow_list", {
+    const res = await fetch(`follow_list?user_id=${user_id}`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ action: "add", coin_id: addCoin }),
@@ -348,7 +349,7 @@ export default function FollowList() {
   }
 
   async function handleRemoveCoin(coinId) {
-    const res = await fetch("follow_list", {
+    const res = await fetch(`follow_list?user_id=${user_id}`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ action: "remove", coin_id: coinId }),

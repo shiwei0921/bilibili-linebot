@@ -13,14 +13,15 @@ export default function PnLBalance() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/profit", {
+    const user_id = localStorage.getItem("user_id");
+    fetch(`/api/profit?user_id=${user_id}`, {
       credentials: "include"
     })
       .then(res => res.json())
       .then(data => {
         setBalance(data.balance);
         setPortfolio(data.portfolio || []);
-        setSummary(data.summary || {});
+        setSummary(data.summary || []);
         if (data.portfolio?.length > 0) {
           setSelectedCoin(data.portfolio[0].coin_id);
         }
