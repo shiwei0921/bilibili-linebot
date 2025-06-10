@@ -47,9 +47,14 @@ def get_rich_menu_id_by_name(target_name):
 
 # ✅ 輔助函式：從網址補 session 中的 uid
 def get_user_id():
-    # 直接從網址取得，不再用 session
     user_id = request.args.get("user_id", "").strip()
-    print("🔍 從網址讀取 user_id：", user_id)
+
+    if not user_id:
+        user_id = session.get("uid", "").strip()
+        print("🟡 從 session 補 user_id：", user_id)
+    else:
+        print("🔵 從網址讀取 user_id：", user_id)
+
     return user_id
 
 # ✅ 輔助函式：從網址補 session 中的 uid
